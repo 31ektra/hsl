@@ -1,0 +1,4 @@
+fn main():
+    let values: [i64; 4] = [10, 20, 30, 40];
+    for value in values:
+        print(value);

@@ -1,0 +1,8 @@
+fn within(value: i64, minimum: i64, maximum: i64) -> bool:
+    return value >= minimum && value <= maximum;
+fn main():
+    let accepted: bool = within(42, 0, 100);
+    if accepted:
+        print("accepted");
+    else:
+        print("rejected");

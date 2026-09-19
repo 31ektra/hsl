@@ -1,0 +1,6 @@
+fn main():
+    let limit: i64 = 5;
+    var current: i64 = 0;
+    while current < limit:
+        print(current);
+        current += 1;

@@ -1,0 +1,5 @@
+fn main():
+    let x: i64 = 20;
+    let y: i64 = 22;
+
+    print(x + y);

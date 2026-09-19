@@ -1,0 +1,6 @@
+fn main():
+    let first: List<i64> = List<i64>();
+    first.push(42);
+
+    let second: List<i64> = move first;
+    print(second[0]);

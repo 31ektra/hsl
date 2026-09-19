@@ -1,0 +1,70 @@
+struct CompilerStats:
+    bytes: i64;
+    identifiers: i64;
+    numbers: i64;
+    punctuation: i64;
+    lines: i64;
+    checksum: i64;
+
+fn is_alpha(value: i64) -> bool:
+    return (value >= 65 && value <= 90) || (value >= 97 && value <= 122) || value == 95;
+
+fn is_digit(value: i64) -> bool:
+    return value >= 48 && value <= 57;
+
+fn mix_checksum(current: i64, value: i64) -> i64:
+    return (current * 131 + value) % 2147483647;
+
+fn scan_source(source: str) -> CompilerStats:
+    var bytes: i64 = 0;
+    var identifiers: i64 = 0;
+    var numbers: i64 = 0;
+    var punctuation: i64 = 0;
+    var lines: i64 = 1;
+    var checksum: i64 = 7;
+    var in_identifier: bool = false;
+    var in_number: bool = false;
+
+    for index in 0..byte_length(source):
+        let value: i64 = source.byte_at(index);
+        bytes += 1;
+        checksum = mix_checksum(checksum, value);
+
+        if value == 10:
+            lines += 1;
+
+        if is_alpha(value):
+            if !in_identifier:
+                identifiers += 1;
+            in_identifier = true;
+            in_number = false;
+        else:
+            if is_digit(value):
+                if !in_number:
+                    numbers += 1;
+                in_number = true;
+                in_identifier = false;
+            else:
+                in_identifier = false;
+                in_number = false;
+                if value != 32 && value != 9 && value != 10 && value != 13:
+                    punctuation += 1;
+
+    return CompilerStats(bytes, identifiers, numbers, punctuation, lines, checksum);
+
+fn print_manifest(stats: CompilerStats):
+    print("hsl-stage=1");
+    print(stats.bytes);
+    print(stats.identifiers);
+    print(stats.numbers);
+    print(stats.punctuation);
+    print(stats.lines);
+    print(stats.checksum);
+
+fn main():
+    if arg_count() != 2:
+        print("usage: hsl_self_hosted_compiler <source>");
+    else:
+        let source: str = fs_read(arg(1));
+        let stats: CompilerStats = scan_source(source);
+        print_manifest(stats);

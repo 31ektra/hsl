@@ -1,0 +1,5 @@
+fn multiply(left: i64, right: i64) -> i64:
+    return left * right;
+fn main():
+    let result: i64 = multiply(6, 7);
+    print(result);

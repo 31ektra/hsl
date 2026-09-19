@@ -1,0 +1,62 @@
+# Build output
+build/
+out/
+
+# Compiler artifacts
+*.o
+*.obj
+*.a
+*.so
+*.out
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+compile_commands.json
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# Debug
+core
+core.*
+
+# HSL compiler cache
+.hsl-cache/
+build-release/
+build-sanitize/
+stage/
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.kdbx
+secrets/
+credentials/
+.DS_Store
+
+# Final validation builds
+build-final/
+build-final-*/
+
+# Local build and release output
+/build/
+/build-*/
+/release-install/
+/dist/
+
+# Generated local files
+/compile_commands.json
+/README.md.backup
+/build-asan/
+/build-ubsan/

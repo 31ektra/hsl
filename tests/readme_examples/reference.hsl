@@ -1,0 +1,6 @@
+fn show(value: &i64):
+    print(*value);
+fn main():
+    let answer: i64 = 42;
+    let reference: &i64 = &answer;
+    show(reference);

@@ -1,0 +1,31 @@
+struct Token:
+    kind: i64;
+    start: i64;
+    length: i64;
+
+fn is_alpha(value: i64) -> bool:
+    return (value >= 65 && value <= 90) || (value >= 97 && value <= 122) || value == 95;
+
+fn is_digit(value: i64) -> bool:
+    return value >= 48 && value <= 57;
+
+fn count_identifier_bytes(source: str) -> i64:
+    var count: i64 = 0;
+
+    for index in 0..16:
+        let value: i64 = source.byte_at(index);
+
+        if is_alpha(value) || is_digit(value):
+            count += 1;
+
+    return count;
+
+fn main():
+    let source: str = "token_42 + value";
+    let tokens: List<Token> = List<Token>();
+
+    tokens.push(Token(1, 0, 8));
+    tokens.push(Token(2, 11, 5));
+
+    print(tokens.length());
+    print(count_identifier_bytes(source));

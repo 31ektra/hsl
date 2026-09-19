@@ -1,0 +1,25 @@
+name: ci
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    strategy:
+      matrix:
+        cxx: [g++, clang++]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y ninja-build clang
+      - run: cmake -S . -B build -G Ninja -DCMAKE_CXX_COMPILER=${{ matrix.cxx }}
+      - run: cmake --build build
+      - run: ctest --test-dir build --output-on-failure
+      - run: python3 tools/fuzz_smoke.py build/hsl 500
+  sanitizers:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y ninja-build clang
+      - run: cmake -S . -B build-sanitize -G Ninja -DCMAKE_CXX_COMPILER=clang++ -DHSL_ENABLE_SANITIZERS=ON
+      - run: cmake --build build-sanitize
+      - run: ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=print_stacktrace=1 ctest --test-dir build-sanitize --output-on-failure
